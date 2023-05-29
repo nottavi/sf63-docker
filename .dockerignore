@@ -1,0 +1,13 @@
+# Stack
+.git
+.idea
+var/cache/**
+var/docker/**
+var/log/**
+var/sessions/**
+.docker-sync
+yarn-error.log
+
+# Specific project volumes
+# var/uploads/**
+

@@ -2,7 +2,8 @@
     "name": "Project Name",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/var/www/html",
+    "workspaceFolder": "/srv",
+    
     "containerEnv": {
         "DATABASE_URL": "${localEnv:DATABASE_URL}"
     },

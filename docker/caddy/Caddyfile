@@ -1,0 +1,9 @@
+{
+	auto_https off
+}
+
+:8000
+root * /srv/public
+log
+php_fastcgi app:9000
+file_server

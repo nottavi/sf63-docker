@@ -1,0 +1,20 @@
+{
+    "name": "GPTBookmarks",
+    "description": "Using GPT to sort bookmarks and links",
+    "scripts": {
+        "start": "webpack server",
+        "dev": "encore dev",
+        "clean": "shx rm -rf ./dist",
+        "watch": "encore dev --watch",
+        "dev-server": "encore dev-server",
+        "build": "encore production --progress",
+        "preview": "cross-env webpack server",
+        "lint:js": "eslint ./src ./webpack ./*.js -f table --ext .js --ext .jsx",
+        "lint:scss": "stylelint ./src/**/*.scss --syntax scss",
+        "lint": "npm run lint:js && npm run lint:scss"
+    },
+    "licence": "MIT",
+    "version": "0.1.0",
+    "dependencies": {},
+    "devDependencies": {}
+  }

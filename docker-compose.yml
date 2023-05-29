@@ -1,0 +1,74 @@
+version: "3.4"
+
+volumes:
+    db_data:
+    cache:
+
+services:
+    app:
+        build:
+            context: ./docker/php/
+        working_dir: /srv/
+        volumes: ["./:/srv"]
+        depends_on:
+            - database
+            
+
+    caddy:
+        build:
+            context: ./docker/caddy/
+        working_dir: /srv/
+        volumes: ["./:/srv/"]
+        ports:
+            - "8000:8000"
+
+    mailcatcher:
+        image: mailhog/mailhog
+
+    node:
+        build: ./docker/node/
+        working_dir: /srv/
+        ports:
+            - "3000:3000"
+        volumes:
+            - "./:/srv"
+
+    # database:
+    #     image: "mysql:5.7"
+    #     working_dir: /srv/
+    #     volumes: ["db_data:/var/lib/mysql"]
+    #     environment:
+    #         MYSQL_DATABASE: ${DB_DATABASE}
+    #         MYSQL_USER: ${DB_USER}
+    #         MYSQL_PASSWORD: ${DB_PASSWORD}
+    #         MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    #         MYSQL_HOST: 0.0.0.0
+    #         MYSQL_ROOT_HOST: "%"
+    #     ports:
+    #         - '3306:3306'
+
+    database:
+        image: "mariadb:10.3.39"
+        volumes:
+            - ./docker/mysql/etc/docker-override.cnf:/etc/mysql/conf.d/bind.cnf
+            - ./docker/mysql/etc/docker-override.cnf:/etc/mysql/conf.d/docker.cnf
+            - db_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_HOST: 0.0.0.0
+            MYSQL_ROOT_HOST: "%"
+    
+
+    redis:
+        image: redis:6.2-alpine
+        restart: unless-stopped
+        ports:
+            - '6379:6379'
+        command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+        volumes: ["cache:/data"]
+
+    adminer:
+        image: adminer
+        restart: unless-stopped
+        ports:
+            - '8080:8080'

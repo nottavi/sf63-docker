@@ -1,0 +1,15 @@
+version: "3.4"
+
+# Docker-compose config keys              # Related to        # Why uncomment
+
+services:
+
+    database:
+        platform: linux/x86_64
+
+    mailcatcher:
+        ports:
+            - '8025:8025'
+    node:
+        platform: linux/x86_64
+
